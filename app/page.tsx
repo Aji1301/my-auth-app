@@ -12,40 +12,46 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
 
-  // --- Fungsi Handle Submit (Login & Register) ---
+  // --- Fungsi Handle Submit (Memanggil API Next.js Asli) ---
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setMessage('');
 
+    // Menentukan endpoint API berdasarkan mode (Login atau Register)
     const endpoint = isLoginMode ? '/api/login' : '/api/register';
     
     try {
+      // Melakukan HTTP Request ke Backend (route.ts)
       const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
 
+      // Menunggu respons dari Backend
       const data = await res.json();
 
       if (res.ok) {
         if (isLoginMode) {
-          // Jika Login berhasil, masuk ke Perpustakaan
-          setIsAuthenticated(true);
+          // --- LOGIKA LOGIN BERHASIL ---
+          setIsAuthenticated(true); // Ganti tampilan ke perpustakaan
         } else {
-          // Jika Register berhasil, tampilkan pesan dan arahkan ke tab Login
-          setMessage(data.message);
-          setIsLoginMode(true);
-          setPassword('');
+          // --- LOGIKA REGISTER BERHASIL ---
+          setMessage(data.message); // Tampilkan pesan berhasil
+          setIsLoginMode(true);     // Pindahkan tab ke mode login
+          setPassword('');          // Kosongkan password demi keamanan
         }
       } else {
-        // Jika gagal (email salah/password kurang)
-        setMessage(data.message);
+        // --- LOGIKA GAGAL (Email/Password salah, dll) ---
+        // Menampilkan pesan error dari backend
+        setMessage(data.message); 
       }
     } catch (error) {
+      // Menangani error jaringan atau server down
       setMessage('Gagal terhubung ke server');
     } finally {
+      // Mengembalikan status loading
       setLoading(false);
     }
   };
@@ -69,7 +75,7 @@ export default function App() {
             </div>
             <button 
               onClick={() => { setIsAuthenticated(false); setEmail(''); setPassword(''); }}
-              className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg transition-colors font-medium"
+              className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg transition-colors font-medium cursor-pointer"
             >
               Logout
             </button>
@@ -77,14 +83,16 @@ export default function App() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             {books.map((book) => (
-              <div key={book.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow group">
+              <div key={book.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow group flex flex-col h-full">
                 <img src={book.cover} alt={book.title} className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" />
-                <div className="p-5">
+                <div className="p-5 flex flex-col flex-grow">
                   <h3 className="font-bold text-lg text-gray-800 mb-1 line-clamp-1">{book.title}</h3>
                   <p className="text-gray-600 text-sm mb-4">{book.author}</p>
-                  <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-medium transition-colors">
-                    Baca Buku
-                  </button>
+                  <div className="mt-auto">
+                     <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-medium transition-colors cursor-pointer">
+                       Baca Buku
+                     </button>
+                  </div>
                 </div>
               </div>
             ))}
@@ -143,7 +151,7 @@ export default function App() {
           <button 
             type="submit" 
             disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold transition-colors disabled:opacity-70"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold transition-colors disabled:opacity-70 cursor-pointer"
           >
             {loading ? 'Memproses...' : (isLoginMode ? 'Masuk' : 'Daftar Sekarang')}
           </button>
@@ -156,7 +164,7 @@ export default function App() {
               setIsLoginMode(!isLoginMode);
               setMessage('');
             }} 
-            className="text-blue-600 font-bold hover:underline"
+            className="text-blue-600 font-bold hover:underline cursor-pointer"
           >
             {isLoginMode ? 'Daftar di sini' : 'Masuk di sini'}
           </button>
