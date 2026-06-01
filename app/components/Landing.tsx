@@ -1,169 +1,218 @@
 'use client';
-import { useEffect } from 'react';
 
 type Props = {
-  onLogout: () => void;
-  displayName?: string;
-};
-
-export default function Landing({ onLogout, displayName }: Props) {
-  useEffect(() => {
-    // hover lift
-    const cards = Array.from(document.querySelectorAll('.group')) as HTMLElement[];
-    cards.forEach(card => {
-      const enter = () => {
-        card.style.transform = 'translateY(-4px)';
-        card.style.transition = 'transform 0.3s cubic-bezier(0.2, 0, 0, 1)';
-      };
-      const leave = () => { card.style.transform = 'translateY(0px)'; };
-      card.addEventListener('mouseenter', enter);
-      card.addEventListener('mouseleave', leave);
-    });
-
-    const searchInput = document.querySelector('input[placeholder="QUERY_TITLE_OR_ISBN"]') as HTMLElement | null;
-    if (searchInput && searchInput.parentElement) {
-      const focus = () => searchInput.parentElement!.classList.add('border-form-focus');
-      const blur = () => searchInput.parentElement!.classList.remove('border-form-focus');
-      searchInput.addEventListener('focus', focus);
-      searchInput.addEventListener('blur', blur);
-    }
-
-    return () => {
-      cards.forEach(card => {
-        card.replaceWith(card.cloneNode(true));
-      });
-      if (searchInput && searchInput.parentElement) {
-        searchInput.parentElement.classList.remove('border-form-focus');
-      }
+    onLogout: () => void;
+    displayName?: string;
     };
-  }, []);
 
-  return (
-    <div className="bg-canvas text-ink font-body min-h-screen">
-      <header className="bg-canvas border-b border-hairline sticky top-0 z-50 w-full">
-        <nav className="flex justify-between items-center px-margin-desktop py-4 w-full max-w-full mx-auto">
-          <div className="flex items-center gap-8">
-            <span className="font-product-display text-3xl tracking-tighter text-primary">Lumina Library</span>
-            <div className="hidden md:flex gap-6 items-center">
-              <a className="text-primary border-b-2 border-primary pb-1 font-body text-body" href="#">Browse</a>
-              <a className="text-muted hover:text-primary transition-colors font-body text-body" href="#">My Books</a>
-              <a className="text-muted hover:text-primary transition-colors font-body text-body" href="#">Wishlist</a>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="hidden md:flex items-center bg-soft-stone rounded-xs px-3 py-1 border border-hairline">
-              <span className="material-symbols-outlined text-sm mr-2">search</span>
-              <input className="bg-transparent border-none focus:ring-0 text-micro font-mono-label w-48 outline-none" placeholder="QUERY_TITLE_OR_ISBN" type="text" />
-            </div>
-            <div className="flex items-center gap-2 group relative cursor-pointer" onClick={onLogout} title="Logout">
-              <span className="hidden md:block font-body text-sm text-body-muted group-hover:text-coral transition-colors">
-                Welcome, {displayName}
-              </span>
-              <button className="material-symbols-outlined text-primary text-2xl group-hover:text-coral transition-colors">
-                account_circle
-              </button>
-            </div>
-          </div>
-        </nav>
-      </header>
+    const capabilityCards = [
+    {
+        title: 'Archive Search',
+        description: 'Precision search across the collection with instant filtering by title, ISBN, or author.',
+        accent: 'bg-pale-blue',
+    },
+    {
+        title: 'Research Table',
+        description: 'Compare readings side by side with clear editorial spacing and minimal cognitive noise.',
+        accent: 'bg-pale-green',
+    },
+    {
+        title: 'Request Access',
+        description: 'Route members through a streamlined access workflow built for focused reading teams.',
+        accent: 'bg-surface-container-high',
+    },
+    ];
 
-      <main>
-        <section className="px-margin-desktop py-section bg-canvas overflow-hidden">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <span className="font-mono-label text-mono-label text-coral uppercase tracking-widest mb-4 block">System Interface v2.4</span>
-              <h1 className="font-product-display text-product-display leading-tight mb-8">Your Collective Knowledge</h1>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <div className="relative flex-grow max-w-md">
-                  <input className="w-full px-4 py-4 font-mono-label text-micro border border-hairline focus:border-form-focus focus:ring-0 rounded-none bg-canvas" placeholder="QUERY_TITLE_OR_ISBN" type="text" />
-                  <span className="absolute right-4 top-1/2 -translate-y-1/2 font-mono-label text-[10px] text-muted">SEARCH_PARAM</span>
-                </div>
-                <button className="bg-primary text-on-primary font-button px-8 py-4 rounded-full hover:opacity-80 transition-all duration-200">Execute Search</button>
-              </div>
-            </div>
-            <div className="relative hidden lg:block h-[500px] overflow-hidden rounded-lg">
-              <img alt="Modern Library" className="w-full h-full object-cover" src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&q=80&w=1000" />
-            </div>
-          </div>
-        </section>
+    const featured = [
+    { title: 'Neural Structures', author: 'Dr. Helena Vance', img: 'https://images.unsplash.com/photo-1629196914210-6c9ab0bbf0d8?auto=format&fit=crop&q=80&w=600' },
+    { title: 'Modern Minimal', author: 'Soren K. Larsen', img: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=600' },
+    { title: 'Brutalism Today', author: 'Marcus Thorne', img: 'https://images.unsplash.com/photo-1621360841013-c76831f12282?auto=format&fit=crop&q=80&w=600' },
+    ];
 
-        <section className="bg-secondary py-section">
-          <div className="px-margin-desktop max-w-7xl mx-auto">
-            <div className="flex justify-between items-end mb-12">
-              <div>
-                <h2 className="font-section-heading text-on-primary mb-2">Featured Selection</h2>
-                <p className="text-on-primary opacity-80 font-body max-w-md">Curated acquisitions from the Lumina archive, selected for their contribution to the evolving digital collective.</p>
-              </div>
-              <a className="font-mono-label text-mono-label text-on-primary underline decoration-hairline hover:opacity-70 transition-opacity" href="#">EXPLORE_FULL_ARCHIVE</a>
-            </div>
+    const catalog = [
+    { isbn: '978-3-16-148410-0', title: 'The Architecture of Flux', author: 'Elara M. Vance', img: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=700' },
+    { isbn: '978-0-12-345678-9', title: 'Algorithmic Ethics', author: 'Julian Rivers', img: 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=700' },
+    { isbn: '978-1-23-456789-0', title: 'Spatial Intelligence', author: 'Nia Patel', img: 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&q=80&w=700' },
+    { isbn: '978-5-67-890123-4', title: 'Cognitive Interfaces', author: 'Thomas Chen', img: 'https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&q=80&w=700' },
+    { isbn: '978-4-56-789012-3', title: 'Systems of Power', author: 'Sarah Jenkins', img: 'https://images.unsplash.com/photo-1495640388908-05fa85288e61?auto=format&fit=crop&q=80&w=700' },
+    { isbn: '978-2-34-567890-1', title: 'Liquid Logic', author: 'David Aris', img: 'https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&q=80&w=700' },
+    ];
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-gutter">
-              {/* three sample cards */}
-              {[
-                { title: 'Neural Structures', author: 'Dr. Helena Vance', img: 'https://images.unsplash.com/photo-1629196914210-6c9ab0bbf0d8?auto=format&fit=crop&q=80&w=400' },
-                { title: 'Modern Minimal', author: 'Soren K. Larsen', img: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=400' },
-                { title: 'Brutalism Today', author: 'Marcus Thorne', img: 'https://images.unsplash.com/photo-1621360841013-c76831f12282?auto=format&fit=crop&q=80&w=400' }
-              ].map((book, i) => (
-                <div key={i} className="bg-canvas p-6 rounded-lg border border-hairline flex flex-col gap-6 group">
-                  <img alt={book.title} className="aspect-[2/3] w-full object-cover rounded-[8px]" src={book.img} />
-                  <div>
-                    <h3 className="font-card-heading text-card-heading mb-1">{book.title}</h3>
-                    <p className="font-body text-body text-body-muted mb-4">{book.author}</p>
-                    <button className="bg-primary text-on-primary font-button px-6 py-3 rounded-full w-fit hover:opacity-80 transition-all">View Details</button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="px-margin-desktop py-section bg-canvas">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex items-center justify-between mb-12">
-              <h2 className="font-section-heading text-primary">Library Catalog</h2>
-              <div className="flex gap-4 items-center">
-                <span className="font-mono-label text-micro text-muted">SORT_BY:</span>
-                <select className="bg-transparent border-none font-mono-label text-micro focus:ring-0 text-primary cursor-pointer">
-                  <option>ALPHABETICAL</option>
-                  <option>DATE_ADDED</option>
-                  <option>RELEVANCE</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
-              {[1,2,3,4,5,6].map((i) => (
-                <div key={i} className="group border-b border-hairline pb-8 transition-opacity hover:opacity-90 cursor-pointer">
-                  <img alt="Book" className="w-full aspect-[4/3] object-cover rounded-[8px] mb-6" src={`https://picsum.photos/seed/${i}/600/400`} />
-                  <span className="font-mono-label text-micro text-coral mb-2 block">ISBN: 978-3-16-148410-0</span>
-                  <h4 className="font-card-heading text-primary mb-2">Sample Title {i}</h4>
-                  <p className="font-body text-body-muted mb-6">Author Name</p>
-                  <button className="bg-primary text-on-primary font-button px-8 py-3 rounded-full hover:bg-opacity-80">View Details</button>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-section flex justify-center">
-              <button className="font-button text-ink border border-hairline rounded-xs px-12 py-4 hover:bg-soft-stone transition-colors uppercase tracking-widest">Load More Entries</button>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <footer className="bg-soft-stone border-t border-hairline w-full">
-        <div className="flex flex-col md:flex-row justify-between items-center px-margin-desktop py-section w-full max-w-full mx-auto">
-          <div className="flex flex-col gap-2 mb-8 md:mb-0">
-            <span className="font-mono-label text-mono-label uppercase tracking-widest text-ink">LUMINA SYSTEMS</span>
-            <span className="font-micro text-micro text-body-muted">© 2026 Lumina Systems. All rights reserved.</span>
-          </div>
-          <div className="flex gap-8">
-            <a className="font-micro text-micro text-body-muted hover:underline decoration-hairline" href="#">Terms</a>
-            <a className="font-micro text-micro text-body-muted hover:underline decoration-hairline" href="#">Privacy</a>
-            <a className="font-micro text-micro text-body-muted hover:underline decoration-hairline" href="#">Catalog</a>
-            <a className="font-micro text-micro text-body-muted hover:underline decoration-hairline" href="#">Support</a>
-          </div>
+    export default function Landing({ onLogout, displayName }: Props) {
+    return (
+        <div className="min-h-screen bg-background text-on-background">
+        <div className="bg-cohere-black text-on-dark h-9 flex items-center justify-center px-margin-mobile md:px-margin-desktop text-micro tracking-wide">
+            <span className="opacity-90">Lumina Library member interface</span>
         </div>
-      </footer>
-    </div>
-  );
+
+        <header className="sticky top-0 z-50 bg-canvas/95 backdrop-blur border-b border-hairline">
+            <nav className="mx-auto flex max-w-7xl items-center justify-between px-margin-mobile md:px-margin-desktop py-4">
+            <div className="flex items-center gap-8">
+                <span className="font-product-display text-feature-heading md:text-card-heading tracking-tight text-primary">Lumina Library</span>
+                <div className="hidden md:flex items-center gap-6 text-body">
+                <a className="text-primary border-b-2 border-primary pb-1" href="#hero">Browse</a>
+                <a className="text-muted hover:text-primary transition-colors" href="#catalog">Catalog</a>
+                <a className="text-muted hover:text-primary transition-colors" href="#access">Access</a>
+                </div>
+            </div>
+
+            <div className="flex items-center gap-4">
+                <div className="hidden md:flex items-center rounded-xs border border-hairline bg-soft-stone px-3 py-2 focus-within:border-form-focus transition-colors">
+                <span className="material-symbols-outlined mr-2 text-base text-muted">search</span>
+                <input className="w-52 bg-transparent outline-none text-micro font-mono-label placeholder:text-muted" placeholder="Search archive..." type="text" />
+                </div>
+
+                <button
+                type="button"
+                onClick={onLogout}
+                className="flex items-center gap-2 rounded-full border border-hairline px-3 py-2 hover:border-primary hover:text-primary transition-colors"
+                title="Logout"
+                >
+                <span className="hidden md:block text-sm text-body-muted">Welcome, {displayName}</span>
+                <span className="material-symbols-outlined text-2xl">account_circle</span>
+                </button>
+            </div>
+            </nav>
+        </header>
+
+        <main>
+            <section id="hero" className="px-margin-mobile md:px-margin-desktop py-section bg-canvas overflow-hidden">
+            <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center">
+                <div>
+                <span className="mb-4 block font-mono-label text-coral uppercase tracking-[0.28em]">System Interface v2.4</span>
+                <h1 className="font-hero-display text-hero-display-mobile md:text-hero-display leading-none text-primary max-w-xl">
+                    Your Collective Knowledge
+                </h1>
+
+                <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+                    <div className="relative flex-1 max-w-md rounded-xs border border-hairline bg-canvas focus-within:border-form-focus transition-colors">
+                    <input
+                        className="w-full bg-transparent px-4 py-4 font-mono-label text-micro outline-none"
+                        placeholder="QUERY_TITLE_OR_ISBN"
+                        type="text"
+                    />
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 font-mono-label text-[10px] text-muted">SEARCH_PARAM</span>
+                    </div>
+                    <button className="rounded-pill bg-primary px-8 py-4 font-button text-on-primary transition-opacity hover:opacity-90">
+                    Execute Search
+                    </button>
+                </div>
+                </div>
+
+                <div className="relative hidden lg:block">
+                <div className="overflow-hidden rounded-lg bg-surface-container-highest shadow-sm" style={{ height: '540px' }}>
+                    <img
+                    alt="Modern library interior"
+                    className="h-full w-full object-cover"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzlRxYO2nDnNQNgF41Yn28dTwoeCHjEsyUskh4w2SNJbO7kUrDT7VrrhGoWlw7NMDdtIVgXIAW6h7zAL9XpGEvQWrFNnt0ice0ZUm_02M7Ew833o_KkYljij_s1-dOU2ZtC2JTTvKvAI0s_0RIAr8vDj51HkoVBrNXfuYh5SsJMxPZ_UIYPMXIrDuayj3NNzNg_ujXwwIe-TjpknKumBgx0T_Lc5pJxVIPAeZ9a_ipJdB6u-hl9CXOF1fZ3smUOnB4lb5NO2qxisUXw"
+                    />
+                </div>
+                </div>
+            </div>
+            </section>
+
+            <section className="border-y border-hairline bg-canvas">
+            <div className="mx-auto grid max-w-7xl grid-cols-2 gap-px md:grid-cols-4">
+                {['ENTERPRISE ARCHIVE', 'EDITORIAL SYSTEM', 'MEMBER ACCESS', 'RESEARCH TABLE'].map((item) => (
+                <div key={item} className="flex items-center justify-center px-4 py-5 text-center text-caption text-muted">
+                    {item}
+                </div>
+                ))}
+            </div>
+            </section>
+
+            <section className="bg-deep-green py-section text-on-dark">
+            <div className="mx-auto max-w-7xl px-margin-mobile md:px-margin-desktop">
+                <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+                <div>
+                    <h2 className="font-section-heading text-on-dark">Featured Selection</h2>
+                    <p className="mt-3 max-w-xl text-body text-on-dark/80">
+                    Curated acquisitions from the Lumina archive, selected for their contribution to the evolving digital collective.
+                    </p>
+                </div>
+                <a className="font-mono-label text-micro underline decoration-hairline hover:opacity-80" href="#catalog">
+                    EXPLORE_FULL_ARCHIVE
+                </a>
+                </div>
+
+                <div className="grid grid-cols-1 gap-gutter md:grid-cols-3">
+                {featured.map((book) => (
+                    <article key={book.title} className="rounded-lg bg-canvas p-6 text-ink shadow-sm">
+                    <img alt={book.title} className="aspect-2/3 w-full rounded-sm object-cover" src={book.img} />
+                    <div className="mt-6">
+                        <h3 className="font-card-heading text-[26px] leading-tight">{book.title}</h3>
+                        <p className="mt-2 text-body text-body-muted">{book.author}</p>
+                        <button className="mt-5 rounded-pill bg-primary px-6 py-3 font-button text-on-primary hover:opacity-90">
+                        View Details
+                        </button>
+                    </div>
+                    </article>
+                ))}
+                </div>
+            </div>
+            </section>
+
+            <section id="access" className="bg-canvas px-margin-mobile md:px-margin-desktop py-section">
+            <div className="mx-auto max-w-7xl">
+                <div className="mb-10 grid gap-6 md:grid-cols-3">
+                {capabilityCards.map((card) => (
+                    <article key={card.title} className={`rounded-xs border border-hairline p-6 ${card.accent}`}>
+                    <span className="mb-3 block font-mono-label text-micro text-coral uppercase tracking-[0.24em]">Capability</span>
+                    <h3 className="font-feature-heading text-feature-heading text-primary">{card.title}</h3>
+                    <p className="mt-3 text-body text-body-muted">{card.description}</p>
+                    </article>
+                ))}
+                </div>
+
+                <div className="mb-12 flex items-end justify-between gap-4">
+                <h2 id="catalog" className="font-section-heading text-primary">Library Catalog</h2>
+                <div className="flex items-center gap-3">
+                    <span className="font-mono-label text-micro text-muted">SORT_BY:</span>
+                    <select className="bg-transparent font-mono-label text-micro text-primary outline-none cursor-pointer">
+                    <option>ALPHABETICAL</option>
+                    <option>DATE_ADDED</option>
+                    <option>RELEVANCE</option>
+                    </select>
+                </div>
+                </div>
+
+                <div className="grid grid-cols-1 gap-gutter md:grid-cols-2 lg:grid-cols-3">
+                {catalog.map((item) => (
+                    <article key={item.isbn} className="group border-b border-hairline pb-8 transition-transform duration-300 hover:-translate-y-1">
+                    <img alt={item.title} className="mb-6 aspect-4/3 w-full rounded-sm object-cover" src={item.img} />
+                    <span className="mb-2 block font-mono-label text-micro text-coral">ISBN: {item.isbn}</span>
+                    <h3 className="font-card-heading text-primary">{item.title}</h3>
+                    <p className="mt-2 mb-6 text-body text-body-muted">{item.author}</p>
+                    <button className="rounded-pill bg-primary px-8 py-3 font-button text-on-primary hover:opacity-90">
+                        View Details
+                    </button>
+                    </article>
+                ))}
+                </div>
+
+                <div className="mt-section flex justify-center">
+                <button className="rounded-xs border border-hairline px-12 py-4 font-button uppercase tracking-[0.2em] text-primary hover:bg-soft-stone transition-colors">
+                    Load More Entries
+                </button>
+                </div>
+            </div>
+            </section>
+        </main>
+
+        <footer className="border-t border-hairline bg-soft-stone">
+            <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 px-margin-mobile md:flex-row md:items-center md:px-margin-desktop py-section">
+            <div>
+                <p className="font-mono-label text-micro uppercase tracking-[0.28em] text-ink">LUMINA SYSTEMS</p>
+                <p className="mt-2 text-caption text-body-muted">© 2026 Lumina Systems. All rights reserved.</p>
+            </div>
+            <div className="flex flex-wrap gap-8 text-caption text-body-muted">
+                <a className="hover:underline" href="#">Terms</a>
+                <a className="hover:underline" href="#">Privacy</a>
+                <a className="hover:underline" href="#">Catalog</a>
+                <a className="hover:underline" href="#">Support</a>
+            </div>
+            </div>
+        </footer>
+        </div>
+    );
 }

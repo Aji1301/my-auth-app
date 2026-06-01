@@ -5,6 +5,107 @@
 
 @import "tailwindcss";
 
+@theme {
+  --color-primary: #17171c;
+  --color-cohere-black: #000000;
+  --color-ink: #212121;
+  --color-deep-green: #003c33;
+  --color-dark-navy: #071829;
+  --color-canvas: #ffffff;
+  --color-soft-stone: #eeece7;
+  --color-pale-green: #edfce9;
+  --color-pale-blue: #f1f5ff;
+  --color-hairline: #d9d9dd;
+  --color-border-light: #e5e7eb;
+  --color-card-border: #f2f2f2;
+  --color-muted: #93939f;
+  --color-slate: #75758a;
+  --color-body-muted: #616161;
+  --color-action-blue: #1863dc;
+  --color-focus-blue: #4c6ee6;
+  --color-coral: #ff7759;
+  --color-coral-soft: #ffad9b;
+  --color-form-focus: #9b60aa;
+  --color-on-primary: #ffffff;
+  --color-on-dark: #ffffff;
+  --color-error: #b30000;
+  --color-surface: #fdf8f8;
+  --color-surface-dim: #ddd9d9;
+  --color-surface-bright: #fdf8f8;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f7f3f3;
+  --color-surface-container: #f1eded;
+  --color-surface-container-high: #ebe7e7;
+  --color-surface-container-highest: #e5e2e2;
+  --color-on-surface: #1c1b1c;
+  --color-on-surface-variant: #47464b;
+  --color-inverse-surface: #313030;
+  --color-inverse-on-surface: #f4f0f0;
+  --color-outline: #78767b;
+  --color-outline-variant: #c8c5cb;
+  --color-surface-tint: #5f5e64;
+  --color-primary-container: #1b1b20;
+  --color-on-primary-container: #848389;
+  --color-inverse-primary: #c8c5cc;
+  --color-secondary: #35675d;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #b8ede0;
+  --color-on-secondary-container: #3b6d63;
+  --color-tertiary: #000000;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #1f1b14;
+  --color-on-tertiary-container: #8a8379;
+  --color-background: #fdf8f8;
+  --color-on-background: #1c1b1c;
+  --color-surface-variant: #e5e2e2;
+
+  --font-body-large: "Inter", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-micro: "Inter", sans-serif;
+  --font-caption: "Inter", sans-serif;
+  --font-section-display: "Inter", sans-serif;
+  --font-product-display: "Playfair Display", serif;
+  --font-card-heading: "Inter", sans-serif;
+  --font-button: "Inter", sans-serif;
+  --font-mono-label: "JetBrains Mono", monospace;
+  --font-hero-display: "Playfair Display", serif;
+  --font-feature-heading: "Inter", sans-serif;
+  --font-section-heading: "Inter", sans-serif;
+  --font-hero-display-mobile: var(--font-geist-sans);
+
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --radius-xl: 30px;
+  --radius-pill: 32px;
+
+  --spacing-xxs: 2px;
+  --spacing-xs: 6px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  --spacing-xxl: 32px;
+  --spacing-section: 80px;
+  --spacing-gutter: 24px;
+  --spacing-margin-desktop: 64px;
+  --spacing-margin-mobile: 20px;
+
+  --text-hero-display: 96px;
+  --text-product-display: 72px;
+  --text-section-display: 60px;
+  --text-section-heading: 48px;
+  --text-card-heading: 32px;
+  --text-feature-heading: 24px;
+  --text-body-large: 18px;
+  --text-body: 16px;
+  --text-button: 14px;
+  --text-caption: 14px;
+  --text-mono-label: 14px;
+  --text-micro: 12px;
+}
+
 body {
   background-color: #fdf8f8;
   color: #1c1b1c;
