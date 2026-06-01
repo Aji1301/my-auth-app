@@ -1,6 +1,14 @@
 'use client';
 import { useState, useEffect } from 'react';
 
+type User = {
+  email?: string;
+  user_metadata?: {
+    first_name?: string;
+    last_name?: string;
+  };
+};
+
 export default function App() {
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -15,7 +23,7 @@ export default function App() {
   const [message, setMessage] = useState('');
   
   // State Data User
-  const [userData, setUserData] = useState<any>(null);
+  const [userData, setUserData] = useState<User | null>(null);
 
   // Efek Parallax untuk Halaman Register & Home
   useEffect(() => {
@@ -79,7 +87,7 @@ export default function App() {
   // 1. TAMPILAN HOME / DASHBOARD PERPUSTAKAAN (Sudah Login)
   // ========================================================================
   if (isAuthenticated) {
-    const displayName = userData?.user_metadata?.first_name || email.split('@')[0];
+    const displayName = userData?.user_metadata?.first_name || userData?.email?.split('@')[0] || email.split('@')[0] || 'User';
 
     return (
       <div className="bg-canvas text-ink font-body min-h-screen">
