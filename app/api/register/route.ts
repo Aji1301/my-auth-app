@@ -9,12 +9,14 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const { email, password } = body;
+        
+        // Menangkap firstName dan lastName tambahan dari desain form baru
+        const { firstName, lastName, email, password } = body;
 
-        // Validasi input dasar
-        if (!email || !password) {
+        // Validasi input: pastikan semua kolom terisi
+        if (!email || !password || !firstName || !lastName) {
         return NextResponse.json(
-            { message: 'Email dan password wajib diisi!' }, 
+            { message: 'Semua kolom (Nama, Email, Password) wajib diisi!' }, 
             { status: 400 }
         );
         }
@@ -23,9 +25,16 @@ export async function POST(request: Request) {
         const { data, error } = await supabase.auth.signUp({
         email: email,
         password: password,
+        // Menyimpan nama ke dalam metadata pengguna di Supabase
+        options: {
+            data: {
+            first_name: firstName,
+            last_name: lastName,
+            }
+        }
         });
 
-        // Menangani pesan error dari Supabase
+        // Menangani pesan error dari Supabase (misal: email sudah terdaftar)
         if (error) {
         return NextResponse.json(
             { message: error.message }, 
